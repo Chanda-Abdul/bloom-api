@@ -7,12 +7,12 @@ Chanda Hubbard
 
 While enrolled in Thinkful's Web Development bootcamp I created this full stack Capstone project.  
 
-<!-- Easy budget is an interactive web application that was created to view and manage your monthly budget.  This app was created so that you can view all of your monthly expenses and figure out whether they align with your financial goals. -->
+<!-- Bloom is an interactive web application that was created to view and manage your monthly budget.  This app was created so that you can view all of your monthly expenses and figure out whether they align with your financial goals. -->
 
-## Easy Budget Server
+## Bloom Server
 Link to the [Live heroku server](https://polar-sierra-05851.herokuapp.com)
 
-## Easy Budget Client
+## Bloom Client
 Link to the [Client Repo](https://github.com/ChandaHubbard/bloom-client)
 
 ## Technology Used
@@ -37,10 +37,10 @@ Link to the [Client Repo](https://github.com/ChandaHubbard/bloom-client)
 - Heroku
 
 # 
-<!-- # Easy Budget API
-- Easy Budget's back-end consists of an API server that was created with Node.js, Express, Knex, and PostgreSQL
+<!-- # Bloom API
+- Bloom's back-end consists of an API server that was created with Node.js, Express, Knex, and PostgreSQL
  
-- Easy Budget's API service consists of `/GET` `/DELETE` `/POST` and `/PATCH` endpoints
+- Bloom's API service consists of `/GET` `/DELETE` `/POST` and `/PATCH` endpoints
 
 - The API was created locally and deployed to heroku.  The API can be accessed through heroku 
 [here](https://fast-garden-40399.herokuapp.com/).
@@ -61,7 +61,7 @@ The user can access the `/POST` endpoint through the client by visiting the `/cr
 The `/PATCH/:id` is used to update specifc expenses by id and the endpoint can be accessed at `/expenses/:id` on the back-end through the heroku server at [https://fast-garden-40399.herokuapp.com/expenses/:id](https://fast-garden-40399.herokuapp.com/expenses/75). -->
 
 # 
-<!-- ### Easy Budget's API service consists of data that is stored in a PostgreSQL database
+<!-- ### Bloom's API service consists of data that is stored in a PostgreSQL database
 # 
 
 - The database creation scripts can be found at `/migrations`
