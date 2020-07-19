@@ -9,7 +9,7 @@ const bodyParser = require("body-parser")
 const app = express()
 
 const db = knex({
-    client: pageXOffset,
+    client: "pg",
     connection: DB_URL,
 });
 
@@ -47,7 +47,7 @@ app.use((error, req, res, next) => {
 console.log(PORT, DB_URL)
 
 app.get('/', (req, res) => {
-    res.send('Hello, world for app.js!')
+    res.send('Hello, world from app.js!')
 })
 app.listen(PORT, () => {
     console.log(`Listening at http://localhost:${PORT}`);
