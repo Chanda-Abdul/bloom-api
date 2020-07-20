@@ -13,7 +13,7 @@ const db = knex({
     connection: DB_URL,
 });
 
-app.set("db, db");
+app.set("db", db);
 
 app.use(bodyParser.json({ limit: "50mb" }))
 app.use(bodyParser.urlencoded({ extended: true}))
@@ -37,8 +37,8 @@ app.use((error, req, res, next) => {
 const plantRouter = require('./routes/plant-router')
 
 //services
+//is this necessary?
 const PlantService = require('./services/plant-service')
-
 
 app.use(plantRouter)
 
