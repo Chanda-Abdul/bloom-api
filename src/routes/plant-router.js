@@ -2,12 +2,12 @@ const path = require("path")
 const express = require("express")
 const logger = require('../logger')
 const PlantService = require('../services/plant-service')
-const PlantRouter = express.Router()
+const plantRouter = express.Router()
 const jsonParser = express.json()
 const knex = require("knex")
 
-PlantRouter.router('/plants').get((req, res, next) => {
-    PlantService.getAllPlants(
+plantRouter.route('/plants').get((req, res, next) => {
+    PlantService.getPlants(
         req.app.get('db')
     ).then(plants => {
         res.json({ plants })
@@ -15,4 +15,4 @@ PlantRouter.router('/plants').get((req, res, next) => {
     .catch(next)
 })
 
-module.exports = PlantRouter;
+module.exports = plantRouter;

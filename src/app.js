@@ -34,13 +34,13 @@ app.use((error, req, res, next) => {
 })
 
 //routers
-// const plantRouter = require('./')
+const plantRouter = require('./routes/plant-router')
 
 //services
-// const plantService = require('./')
+const PlantService = require('./services/plant-service')
 
 
-// app.use(plantRouter)
+app.use(plantRouter)
 
 const knexTest = db.select().table("plant_information")
 
