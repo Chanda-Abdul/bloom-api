@@ -42,7 +42,7 @@ app.use((error, req, res, next) => {
 
 // app.use(plantRouter)
 
-// const knexTest = db.select().table("table_name")
+const knexTest = db.select().table("plant_information")
 
 console.log(PORT, DB_URL)
 
