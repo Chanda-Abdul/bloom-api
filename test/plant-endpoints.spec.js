@@ -6,20 +6,22 @@ const supertest = require('supertest')
 const { makePlantArray } = require('./plant.fixtures')
 const { request, post } = require('../src/app')
 
+console.log(TEST_DB_URL, "test db");
+
+describe('Express App', () => {
+    it('should return a message from /GET', () => {
+        request.get('/').expect(200, "Hello, world from app.js")
+    });
+})
+
 describe("Plants endpoints", function () {
     let db = knex({
         client: "pg",
         connection: process.env.TEST_DB_URL,
-    })
+    });
 
     //has this already been declared? on line 7? in app.js?
     const request = supertest(db)
-
-    describe('Express App', () => {
-        it('should return a message from /GET', () => {
-            request.get('/').expect(200, "Hello, world from app.js")
-        });
-    })
 
     before('populate the table', (done) => {
         makePlantArray().forEach(async (plant) => {
@@ -29,17 +31,20 @@ describe("Plants endpoints", function () {
     });
 
     after('clean the table', () => db('plant_information').truncate())
-
+    
     describe(`GET /plants`, () => {
         it(`responds with 200`, (done) => {
-            request.get('/plants').expect(200, done)
-        })
+            request
+            .get('/plants')
+            .expect(200, done)
+        });
 
         it(`responds with 200 and returns and array of 3 plants`, (done) => {
             request
             .get('/plants')
             .expect(200, done)
-            .expect('Content-Type', /json/).then((res) => {
+            .expect('Content-Type', /json/)
+            .then((res) => {
                 expect(res.body).to.be.an('array');
                 expect(res.body).to.have.lengthOf.at.least(3)
             });
@@ -50,7 +55,9 @@ describe("Plants endpoints", function () {
     describe(`GET /plants/:plant_id`, () => {
         it(`should respond with 404 if plants are missing`, () => {
             const plantId = 123456;
-            request.get(`/plants/${plantId}`).expect(404, { message: `Plants do not exist` });
+            request
+            .get(`/plants/${plantId}`)
+            .expect(404, { message: `Plants do not exist` });
         });
         it(`should respond with 200 and the specified plant`, () => {
             const testPlants = makePlantArray;
@@ -60,11 +67,11 @@ describe("Plants endpoints", function () {
             request.get(`/plants/${plantId}`).expect(200, expectPlants);
         });
     });
-})
+// })
 
 describe.only(`POST /plants endpoint`, () => {
     it(`creates a plant, responding with 201 and the new plant`, () => {
-        this.retries(3);
+        // this.retries(3);
         const newPlant = {
             "plant_name": "Plant 2",
             "scientific_name": "something scientific",
@@ -75,7 +82,8 @@ describe.only(`POST /plants endpoint`, () => {
              "light_conditions": 1,
              "image_url": "hhttps://images.unsplash.com/photo-1470058869958-2a77ade41c02?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80"
         };
-        request.post('/plants')
+        request
+        .post('/plants')
         .send(newPlant)
         .expect(201)
         .expect((res) => {
@@ -90,7 +98,8 @@ describe.only(`POST /plants endpoint`, () => {
             expect(res.body).to.have.property('plant_id');
             expect(res.headers.location).to
             .eql(`/plants/${res.body.plant_id}`);
-        }).then((postRes) => {
+        })
+        .then((postRes) => {
             supertest(app)
             .get(`/plants/${postRes.body.plant_id}`)
             .expect(postRes.body)
@@ -105,8 +114,12 @@ describe.only(`POST /plants endpoint`, () => {
             it(`responds with 400 and an error message with the '${field}' is missing`, () => {
                 delete newPlant[field];
 
-                request.post('/plants').send(newPlant).expect(400, {
-                    error: { message: `Missing '${field}' in request body`}
+                request
+                .post('/plants')
+                .send(newPlant)
+                .expect(400, {
+                    error: { 
+                        message: `Missing '${field}' in request body` },
                 });
             });
         });
@@ -117,16 +130,122 @@ describe.only(`DELETE /plants/:plant_id`, () => {
     context(`Given no plants`, () => {
         it(`responds with 404`, () => {
             const plantId = 123456;
-            request.delete(`/plants/${plantId}`)
-            .expect(404, { error: { message: `Plant does not exist` } });
+            request
+            .delete(`/plants/${plantId}`)
+            .expect(404, { 
+                error: { 
+                    message: `Plant does not exist` } 
+                });
         });
     });
+
     context('Given there are plants in the database', () => {
         const testPlants = makePlantArray();
 
         beforeEach('insert plant', () => {
-            return 
-        })
-    })
-})
+            return db.into('plant_information').insert(testPlants);
+        });
 
+        it('responds with 404 and removes the plant', () => {
+            const idToRemove = 2;
+            const expectedPlants = testPlants.filter(
+                (plant) => plant.plant_id !== idToRemove
+            );
+            request
+            .delete(`/plants/${idToRemove}`)
+            .expect(404)
+            .then((res) => 
+            supertest(app)
+            .get(`/plants`)
+            .expect(expectedPlants)
+            );
+        });
+    });
+});
+
+describe.only(`PATCH /plants/:plant_id`, () => {
+    context(`Given no plants`, () => {
+        it(`responds with 404`, () => {
+            const plantId = 123456;
+            request
+            .patch(`/plants/${plantId}`)
+            .expect(404, { 
+                error: { 
+                    message: `Plant does not exist`} 
+                });
+        });
+    });
+
+    context('Given there are plants in the database', () => {
+        const testPlants = makePlantArray();
+
+        beforeEach('insert plant', () => {
+            return db
+            .into('plant_information')
+            .insert(testPlants);
+        });
+
+        it('responds with 204 and updates the plant', () => {
+            const idToUpdate = 2;
+            const updatePlant = {
+                "plant_name": "updated plant",
+                "scientific_name": "updated something scientific",
+                "plant_type": "updated Leafy",
+                "details": "updated insert interesting details here",
+                "maintenance_level": 2,
+                "water_requirements": 2,
+                "light_conditions": 2,
+                "image_url": "https://images.unsplash.com/photo-1470058869958-2a77ade41c02?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80"
+            };
+            const expectedPlants = {
+                ...testPlants[idToUpdate - 1],
+                ...updatePlant,
+              };
+              request
+              .patch(`/plants/${idToUpdate}`)
+              .send(updatePlant)
+              .expect(204)
+              .then((res) => 
+              supertest(app)
+              .get(`/plants/${idToUpdate}`)
+              .expect(updatePlant)
+              );
+        });
+
+        it(`responds with 400 when no required fields supplied`, () => {
+            const idToUpdate = 2;
+            request
+            .patch(`/plants/${idToUpdate}`)
+            .send({ irrelevanField: 'foo'})
+            .expect(400, {
+                error: {
+                    message: `Request body must contain either 'plant name', 'scientific_name', 'details' etc.`,
+                }, 
+            });
+        });
+
+        it(`responds with 204 when updating only a subset of fields`, () => {
+            const idToUpdate = 2;
+            const updatePlant = {
+                plant_name: "updated plant name",
+            };
+            const expectedPlants = {
+                ...testPlants[idToUpdate -1],
+                ...updatePlant,
+            };
+            request
+            .patch(`/plants/${idToUpdate}`)
+            .send({ 
+                ...updatePlant,
+                fieldToIgnore: "should not be in GET response",
+            })
+            .expect(204)
+            .then((res) => 
+                supertest(app)
+                    .get(`/plants/${idToUpdate}`)
+                    .expect(expectedPlants)
+                );
+            });
+        });
+    });
+});
