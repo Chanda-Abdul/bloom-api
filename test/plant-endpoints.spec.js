@@ -4,24 +4,17 @@ const app = require('../src/app')
 const { TEST_DB_URL } = require('../src/config')
 const supertest = require('supertest')
 const { makePlantArray } = require('./plant.fixtures')
-const { request, post } = require('../src/app')
+
 
 console.log(TEST_DB_URL, "test db");
-
-describe('Express App', () => {
-    it('should return a message from /GET', () => {
-        request.get('/').expect(200, "Hello, world from app.js")
-    });
-})
 
 describe("Plants endpoints", function () {
     let db = knex({
         client: "pg",
-        connection: process.env.TEST_DB_URL,
+        connection: TEST_DB_URL,
     });
 
-    //has this already been declared? on line 7? in app.js?
-    const request = supertest(db)
+    const request = supertest(app)
 
     before('populate the table', (done) => {
         makePlantArray().forEach(async (plant) => {
@@ -53,25 +46,27 @@ describe("Plants endpoints", function () {
     })
 
     describe(`GET /plants/:plant_id`, () => {
-        it(`should respond with 404 if plants are missing`, () => {
+        it(`should respond with 404 if plants are missing`, (done) => {
             const plantId = 123456;
             request
             .get(`/plants/${plantId}`)
             .expect(404, { message: `Plants do not exist` });
+            done()
         });
-        it(`should respond with 200 and the specified plant`, () => {
+        it(`should respond with 200 and the specified plant`, (done) => {
             const testPlants = makePlantArray;
             console.log(makePlantArray[1], "test plants");
             const plantId = 2;
             const expectPlants = testPlants[plantId - 1];
             request.get(`/plants/${plantId}`).expect(200, expectPlants);
-        });
+            done()
+        })
+        
     });
-// })
+
 
 describe.only(`POST /plants endpoint`, () => {
-    it(`creates a plant, responding with 201 and the new plant`, () => {
-        // this.retries(3);
+    it(`creates a plant, responding with 201 and the new plant`, (done) => {
         const newPlant = {
             "plant_name": "Plant 2",
             "scientific_name": "something scientific",
@@ -123,12 +118,13 @@ describe.only(`POST /plants endpoint`, () => {
                 });
             });
         });
+        done()
     });
 });
 
 describe.only(`DELETE /plants/:plant_id`, () => {
     context(`Given no plants`, () => {
-        it(`responds with 404`, () => {
+        it(`responds with 404`, (done) => {
             const plantId = 123456;
             request
             .delete(`/plants/${plantId}`)
@@ -136,17 +132,18 @@ describe.only(`DELETE /plants/:plant_id`, () => {
                 error: { 
                     message: `Plant does not exist` } 
                 });
+                done()
         });
     });
 
     context('Given there are plants in the database', () => {
         const testPlants = makePlantArray();
 
-        beforeEach('insert plant', () => {
+        before('insert plant', () => {
             return db.into('plant_information').insert(testPlants);
         });
 
-        it('responds with 404 and removes the plant', () => {
+        it('responds with 404 and removes the plant', (done) => {
             const idToRemove = 2;
             const expectedPlants = testPlants.filter(
                 (plant) => plant.plant_id !== idToRemove
@@ -159,13 +156,14 @@ describe.only(`DELETE /plants/:plant_id`, () => {
             .get(`/plants`)
             .expect(expectedPlants)
             );
+            done()
         });
     });
 });
 
 describe.only(`PATCH /plants/:plant_id`, () => {
     context(`Given no plants`, () => {
-        it(`responds with 404`, () => {
+        it(`responds with 404`, (done) => {
             const plantId = 123456;
             request
             .patch(`/plants/${plantId}`)
@@ -173,6 +171,7 @@ describe.only(`PATCH /plants/:plant_id`, () => {
                 error: { 
                     message: `Plant does not exist`} 
                 });
+                done()
         });
     });
 
@@ -185,7 +184,7 @@ describe.only(`PATCH /plants/:plant_id`, () => {
             .insert(testPlants);
         });
 
-        it('responds with 204 and updates the plant', () => {
+        it('responds with 204 and updates the plant', (done) => {
             const idToUpdate = 2;
             const updatePlant = {
                 "plant_name": "updated plant",
@@ -210,9 +209,10 @@ describe.only(`PATCH /plants/:plant_id`, () => {
               .get(`/plants/${idToUpdate}`)
               .expect(updatePlant)
               );
+              done()
         });
 
-        it(`responds with 400 when no required fields supplied`, () => {
+        it(`responds with 400 when no required fields supplied`, (done) => {
             const idToUpdate = 2;
             request
             .patch(`/plants/${idToUpdate}`)
@@ -222,9 +222,10 @@ describe.only(`PATCH /plants/:plant_id`, () => {
                     message: `Request body must contain either 'plant name', 'scientific_name', 'details' etc.`,
                 }, 
             });
+            done()
         });
 
-        it(`responds with 204 when updating only a subset of fields`, () => {
+        it(`responds with 204 when updating only a subset of fields`, (done) => {
             const idToUpdate = 2;
             const updatePlant = {
                 plant_name: "updated plant name",
@@ -245,6 +246,7 @@ describe.only(`PATCH /plants/:plant_id`, () => {
                     .get(`/plants/${idToUpdate}`)
                     .expect(expectedPlants)
                 );
+                done()
             });
         });
     });
