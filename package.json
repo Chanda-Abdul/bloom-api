@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "mocha --require test/setup.js",
+    "test": "export DB_URL=postgres://ukvyakln:IkqTw5xPcpZXDKKXwJPZjJ0Wfro_e0yY@echo.db.elephantsql.com:5432/ukvyakln && mocha --require test/setup.js",
     "dev": "nodemon src/app.js",
     "start": "node src/app.js",
     "predeploy": "npm audit",

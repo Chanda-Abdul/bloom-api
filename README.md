@@ -21,6 +21,7 @@ Link to the [Client Repo](https://github.com/ChandaHubbard/bloom-client)
     - Router
     - Context
     - Libraries
+        - Axios
         - Sweet Alerts
 - HTML
 - CSS
@@ -89,7 +90,7 @@ ON (budget_expenses.type_id = expense_type.id);
 
 # 
 
-<!-- ## Other features to implement in future versions
+## Other features to implement in future versions
 
-[ ] Incorporate the `/PATCH` endpoint into the client.  -->
+[ ] Incorporate the `/PATCH` endpoint into the client. 
 
