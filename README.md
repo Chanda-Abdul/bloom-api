@@ -45,11 +45,11 @@ Link to the [Client Repo](https://github.com/ChandaHubbard/bloom-client)
 - The API was created locally and deployed to heroku.  The API can be accessed through heroku 
 [here](https://polar-sierra-05851.herokuapp.com).
 
-### /GET at `/expenses`
-The user can access the `/GET` endpoint through the client by visiting the `/budget` page and all expenses will be displayed.  The `/GET` endpoint can also be accessed at `/expenses` on the back-end through the heroku server at [https://fast-garden-40399.herokuapp.com/expenses](https://fast-garden-40399.herokuapp.com/expenses).
+### /GET at `/plants`
+The user can access the `/GET` endpoint through the client by visiting the `/view` page and all expenses will be displayed.  The `/GET` endpoint can also be accessed at `/plants` on the back-end through the heroku server at [https://polar-sierra-05851.herokuapp.com/plants](https://polar-sierra-05851.herokuapp.com/plants).
 
-### /GET at `/expenses/:id`
-The `/GET/:id` endpoint can be accessed at `/expenses/:id` on the back-end through the heroku server at [https://fast-garden-40399.herokuapp.com/expenses/:id](https://fast-garden-40399.herokuapp.com/expenses/75).
+### /GET at `/plants/:id`
+The `/GET/:id` endpoint can be accessed at `/plants/:id` on the back-end through the heroku server at [https://polar-sierra-05851.herokuapp.com/plants/:id](https://polar-sierra-05851.herokuapp.com/plants/85).
 
 ### /DELETE at `/expenses/:id`
 The `/DELETE` endpoint is used to delete specific expenses by id. The user can access the `/DELETE` endpoint through the client by visiting the `/budget` page and selecting the <i>Delete</i> button next to the expense that they would like to delete.  The `/DELETE` endpoint can also be accessed at `/expenses` on the back-end through the heroku server at [https://fast-garden-40399.herokuapp.com/expenses](https://fast-garden-40399.herokuapp.com/expenses).
