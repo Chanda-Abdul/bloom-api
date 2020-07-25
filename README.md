@@ -73,25 +73,26 @@ The `/PATCH/:id` is used to update specifc plants by id and the endpoint can be 
     - <b>light_conditions</b> 
     <img src="./src/screens/light_conditions.png" alt="light_conditions table">
 
-    - <b>plant_type</b> 
-    <img src="images/plant_type.png" alt="plant_type table">
+    - <b>maintenance</b> 
+    <img src="./src/screens/light_conditions.png" alt="maintenance table">
 
-    - <b>plant_type</b> 
-    <img src="images/plant_type.png" alt="plant_type table">
+    - <b>water_level</b> 
+    <img src="./src/screens/water_level.png" alt="water_level table">
 
-    - <b>plant_type</b> 
-    <img src="images/plant_type.png" alt="plant_type table">
+    - <b>plant_information</b> 
+    <img src="./src/screens/plant_information.png" alt="plant_information table">
 
-    - The tables share the relation of `plant_type(id)/budget_plants(type_id)` and can be joined with the <b>PostgreSQL</b> query of <br>
+    - The tables share relations and can be joined with the <b>PostgreSQL</b> query of <br>
 
 ````
-SELECT budget_plants.id, name, amount, type, category, date
-FROM budget_plants
-INNER JOIN plant_type
-ON (budget_plants.type_id = plant_type.id);
+SELECT pi.plant_name, pi.scientific_name, pi.plant_type, pi.details, ma.maintenance, wl.water, lc.light, pi.image_url
+FROM plant_information AS pi  
+INNER JOIN maintenance AS ma ON pi.maintenance_level = ma.id  
+INNER JOIN water_level AS wl ON pi.water_requirements = wl.id  
+INNER JOIN light_conditions AS lc ON pi.light_conditions = lc.id;
 ````
 <br><br>
-<img src="images/tablejoin.png" alt="table join table"> -->
+<img src="./src/screens/table_join.png" alt="table join">
 
 # 
 
