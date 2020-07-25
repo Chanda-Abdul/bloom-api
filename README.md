@@ -5,9 +5,7 @@ Chanda Hubbard
 
 ## Summary
 
-While enrolled in Thinkful's Web Development bootcamp I created this full stack Capstone project.  
-
-<!-- Bloom is an interactive web application that was created to view and manage your monthly budget.  This app was created so that you can view all of your monthly expenses and figure out whether they align with your financial goals. -->
+While enrolled in Thinkful's Web Development bootcamp I created this Full-stack Capstone project.  Bloom is an interactive web application that was created to view and manage your plant collection.  This app was created so that you can view all of your plants, and keep track of thier care and maintenance.
 
 ## Bloom Server
 Link to the [Live heroku server](https://polar-sierra-05851.herokuapp.com)
@@ -38,13 +36,14 @@ Link to the [Client Repo](https://github.com/ChandaHubbard/bloom-client)
 - Heroku
 
 # 
-<!-- # Bloom API
+
+# Bloom API
 - Bloom's back-end consists of an API server that was created with Node.js, Express, Knex, and PostgreSQL
  
 - Bloom's API service consists of `/GET` `/DELETE` `/POST` and `/PATCH` endpoints
 
 - The API was created locally and deployed to heroku.  The API can be accessed through heroku 
-[here](https://fast-garden-40399.herokuapp.com/).
+[here](https://polar-sierra-05851.herokuapp.com).
 
 ### /GET at `/expenses`
 The user can access the `/GET` endpoint through the client by visiting the `/budget` page and all expenses will be displayed.  The `/GET` endpoint can also be accessed at `/expenses` on the back-end through the heroku server at [https://fast-garden-40399.herokuapp.com/expenses](https://fast-garden-40399.herokuapp.com/expenses).
