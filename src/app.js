@@ -37,8 +37,6 @@ app.use((error, req, res, next) => {
 const plantRouter = require('./routes/plant-router')
 
 //services
-//is this necessary?
-const PlantService = require('./services/plant-service')
 
 app.use(plantRouter)
 
