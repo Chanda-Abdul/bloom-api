@@ -98,5 +98,5 @@ INNER JOIN light_conditions AS lc ON pi.light_conditions = lc.id;
 
 ## Other features to implement in future versions
 
-[ ] Incorporate the `/PATCH` endpoint into the client. 
+- [ ] Incorporate the `/PATCH` endpoint into the client. 
 
