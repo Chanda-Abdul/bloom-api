@@ -1,14 +1,14 @@
 # Thinkful Full Stack Capstone - Bloom App API Server
 
 ## Programmer
-Chanda Hubbard
+Chanda Abdul
 
 ## Summary
 
 While enrolled in Thinkful's Web Development bootcamp I created this Full-stack Capstone project.  Bloom is an interactive web application that was created to view and manage your plant collection.  This app was created so that you can view all of your plants, and keep track of thier care and maintenance.
 
-## Bloom Server
-Link to the [Live heroku server](https://polar-sierra-05851.herokuapp.com)
+<!-- ## Bloom Server
+Link to the [Live heroku server](https://polar-sierra-05851.herokuapp.com) -->
 
 ## Bloom Client
 Link to the [Client Repo](https://github.com/ChandaHubbard/bloom-client)
